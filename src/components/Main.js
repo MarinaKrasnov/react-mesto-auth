@@ -1,66 +1,77 @@
 import React from 'react'
 import plus from '../images/Vector-3.svg'
 import pen from '../images/Vector-2.svg'
-import PopupWithForm from './PopupWithForm.js'
-
-function Main () {
-  const handleEditAvatarClick = () => {
-    document.querySelector('.overlay-avatar').classList.add('overlay-active')
-    console.log(document.querySelector('.overlay-avatar'))
-  }
-  const handleEditProfileClick = () => {
-    document.querySelector('.overlay-profile').classList.add('overlay-active')
-  }
-  const handleAddPlaceClick = () => {
-    document.querySelector('.overlay-add').classList.add('overlay-active')
-  }
+import api from '../utils/API.js'
+import Card from './Card.js'
+function Main ({ onEditProfile, onAddPlace, onEditAvatar }) {
+  const [userName, setUserName] = React.useState()
+  const [userDescription, setUserDescription] = React.useState()
+  const [userAvatar, setUserAvatar] = React.useState()
+  const [cards, setCards] = React.useState([])
+  React.useEffect(() => {
+    api
+      .getProfileInfo()
+      .then(userData => {
+        /*   myId = userData._id */
+        setUserName(userData.name)
+        setUserDescription(userData.about)
+        setUserAvatar(userData.avatar)
+      })
+      .catch(err => {
+        console.log(`Request for data from server is failed.${err}`)
+      })
+  }, [userName, userAvatar, userDescription])
+  React.useEffect(() => {
+    api.getCards().then(cards => {
+      setCards(cards)
+    })
+  }, [])
   return (
     <div className='Main'>
-      <>
-        <main className='content'>
-          <div className='profile'>
-            <div className='profile__container'>
-              <div className='profile__avatar'>
-                <div className=' profile__overlay' arialabel='Обновить'>
-                  {' '}
-                </div>{' '}
-              </div>{' '}
-              <div className='profile__info'>
-                <div
-                  className='profile__titleicon'
-                  onClick={handleEditProfileClick}
-                >
-                  <h1 className='profile__title'> Жак - Ив Кусто </h1>{' '}
-                  <button
-                    type='button'
-                    className='button'
-                    arialabel='Кнопка редактирования'
-                  >
-                    <img
-                      src={pen}
-                      alt='Иконка редактирования'
-                      className=' profile__icon'
-                      onClick={handleEditAvatarClick}
-                    />{' '}
-                  </button>{' '}
-                </div>{' '}
-                <p className='profile__subtitle'> Исследователь океана </p>{' '}
-              </div>{' '}
+      <main className='content'>
+        <div className='profile'>
+          <div className='profile__container'>
+            <div
+              className='profile__avatar'
+              style={{ backgroundImage: `url(${userAvatar})` }}
+              onClick={onEditAvatar}
+            >
+              <div className=' profile__overlay' arialabel='Обновить'></div>{' '}
             </div>{' '}
-            <button className='button' arialabel='Кнопка добавления'>
-              <img
-                src={plus}
-                alt='Иконка добавления'
-                className='profile__add-button'
-                onClick={handleAddPlaceClick}
-              />{' '}
-            </button>{' '}
+            <div className='profile__info'>
+              <div className='profile__titleicon' onClick={onEditProfile}>
+                <h1 className='profile__title'>{userName}</h1>{' '}
+                <button
+                  type='button'
+                  className='button'
+                  arialabel='Кнопка редактирования'
+                >
+                  <img
+                    src={pen}
+                    alt='Иконка редактирования'
+                    className=' profile__icon'
+                  />{' '}
+                </button>{' '}
+              </div>{' '}
+              <p className='profile__subtitle'>{userDescription}</p>{' '}
+            </div>{' '}
           </div>{' '}
-          <section className='cards'> </section>{' '}
-        </main>
-      </>{' '}
+          <button className='button' arialabel='Кнопка добавления'>
+            <img
+              src={plus}
+              alt='Иконка добавления'
+              className='profile__add-button'
+              onClick={onAddPlace}
+            />{' '}
+          </button>{' '}
+        </div>{' '}
+        <section className='cards'>
+          {cards.map(item => {
+            return Card(item)
+          })}
+        </section>
+      </main>
     </div>
   )
 }
-
 export default Main
