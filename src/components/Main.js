@@ -3,7 +3,7 @@ import plus from '../images/Vector-3.svg'
 import pen from '../images/Vector-2.svg'
 import api from '../utils/API.js'
 import Card from './Card.js'
-function Main ({ onEditProfile, onAddPlace, onEditAvatar }) {
+function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userName, setUserName] = React.useState()
   const [userDescription, setUserDescription] = React.useState()
   const [userAvatar, setUserAvatar] = React.useState()
@@ -66,9 +66,9 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar }) {
           </button>{' '}
         </div>{' '}
         <section className='cards'>
-          {cards.map(item => {
-            return Card(item)
-          })}
+          {cards.map(item => (
+            <Card onCardClick={onCardClick} item={item} />
+          ))}
         </section>
       </main>
     </div>
