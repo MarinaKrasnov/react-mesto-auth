@@ -1,9 +1,8 @@
 import React from 'react'
 function ImagePopup ({ card, onClose }) {
-  console.log(card)
   return (
     <div className='ImagePopup'>
-      <div className={'overlay overlay-image' + (card ? 'overlay_active' : '')}>
+      <div className={`overlay overlay-image ${card && 'overlay_active'}`}>
         <div className='overlay-image__content '>
           <img
             src={card && card.link}

@@ -1,9 +1,5 @@
 import React from 'react'
 function Card ({ item, onCardClick }) {
-  function handleClick () {
-    onCardClick(item)
-  }
-  console.log(handleClick)
   return (
     <article className='card' aria-label='Карточка' key={item._id}>
       <img
@@ -11,7 +7,9 @@ function Card ({ item, onCardClick }) {
         src={item.link}
         /*        style={{ backgroundImage: `url(${item.link})` }} */
         alt={`Виды на ${item.name}`}
-        onClick={handleClick}
+        onClick={() => {
+          onCardClick(item)
+        }}
       />
       <button
         type='button'
