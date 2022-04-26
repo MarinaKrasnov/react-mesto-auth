@@ -27,12 +27,12 @@ function App () {
     setIsEditAvatarPopupOpen(false)
     setSelectedCard(null)
   }
-  const [selectedCard, setSelectedCard] = React.useState()
+  const [selectedCard, setSelectedCard] = React.useState(null)
   function handleCardClick (card) {
     setSelectedCard(card)
   }
   return (
-    <div className='App'>
+    <>
       <Header />
       <Main
         onAddPlace={handleAddPlaceClick}
@@ -114,17 +114,6 @@ function App () {
         </button>
         <input type='hidden' name='id' defaultValue='' />
       </PopupWithForm>
-      <div className='overlay overlay-image '>
-        <div className='overlay-image__content '>
-          <img
-            src='#'
-            className='overlay-image__image'
-            alt='Увеличенное фото'
-          />
-          <button type='button' className='button close-btn ' />
-          <p className='overlay-image__capture' />
-        </div>
-      </div>
       <PopupWithForm
         name={'ausure'}
         title={'Вы уверены?'}
@@ -168,7 +157,7 @@ function App () {
           Сохранить
         </button>
       </PopupWithForm>
-    </div>
+    </>
   )
 }
 

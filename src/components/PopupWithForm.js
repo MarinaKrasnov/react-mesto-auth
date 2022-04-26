@@ -6,7 +6,6 @@ function PopupWithForm ({ name, title, children, isOpen, onClose, onSubmit }) {
         <form
           className='overlay__form'
           name={`form-${name}`}
-          noValidate
           onSubmit={onSubmit}
         >
           <fieldset className={`popup popup_type_${name}`}>

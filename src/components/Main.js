@@ -1,7 +1,7 @@
 import React from 'react'
 import plus from '../images/Vector-3.svg'
 import pen from '../images/Vector-2.svg'
-import api from '../utils/API.js'
+import api from '../utils/api.js'
 import Card from './Card.js'
 function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userName, setUserName] = React.useState()
@@ -9,22 +9,17 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userAvatar, setUserAvatar] = React.useState()
   const [cards, setCards] = React.useState([])
   React.useEffect(() => {
-    api
-      .getProfileInfo()
-      .then(userData => {
+    Promise.all[(api.getProfileInfo(), api.getCards())]
+      .then((userData, cards) => {
         /*   myId = userData._id */
         setUserName(userData.name)
         setUserDescription(userData.about)
         setUserAvatar(userData.avatar)
+        setCards(cards)
       })
       .catch(err => {
         console.log(`Request for data from server is failed.${err}`)
       })
-  }, [userName, userAvatar, userDescription])
-  React.useEffect(() => {
-    api.getCards().then(cards => {
-      setCards(cards)
-    })
   }, [])
   return (
     <div className='Main'>
