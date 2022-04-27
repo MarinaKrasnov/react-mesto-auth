@@ -9,8 +9,8 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userAvatar, setUserAvatar] = React.useState()
   const [cards, setCards] = React.useState([])
   React.useEffect(() => {
-    Promise.all[(api.getProfileInfo(), api.getCards())]
-      .then((userData, cards) => {
+    Promise.all([api.getProfileInfo(), api.getCards()])
+      .then(([userData, cards]) => {
         /*   myId = userData._id */
         setUserName(userData.name)
         setUserDescription(userData.about)
@@ -61,8 +61,8 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           </button>{' '}
         </div>{' '}
         <section className='cards'>
-          {cards.map((item, i) => (
-            <Card onCardClick={onCardClick} item={item} key={i} />
+          {cards.map(item => (
+            <Card onCardClick={onCardClick} item={item} key={item._id} />
           ))}
         </section>
       </main>
