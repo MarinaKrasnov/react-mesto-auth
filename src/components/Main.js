@@ -3,24 +3,18 @@ import plus from '../images/Vector-3.svg'
 import pen from '../images/Vector-2.svg'
 import api from '../utils/api.js'
 import Card from './Card.js'
-function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = React.useState()
-  const [userDescription, setUserDescription] = React.useState()
-  const [userAvatar, setUserAvatar] = React.useState()
-  const [cards, setCards] = React.useState([])
-  React.useEffect(() => {
-    Promise.all([api.getProfileInfo(), api.getCards()])
-      .then(([userData, cards]) => {
-        /*   myId = userData._id */
-        setUserName(userData.name)
-        setUserDescription(userData.about)
-        setUserAvatar(userData.avatar)
-        setCards(cards)
-      })
-      .catch(err => {
-        console.log(`Request for data from server is failed.${err}`)
-      })
-  }, [])
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
+function Main ({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  handleCardDelete,
+  handleCardLike,
+  cards,
+  countLikes
+}) {
+  const currentUser = React.useContext(CurrentUserContext)
   return (
     <div className='Main'>
       <main className='content'>
@@ -28,14 +22,14 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           <div className='profile__container'>
             <div
               className='profile__avatar'
-              style={{ backgroundImage: `url(${userAvatar})` }}
+              style={{ backgroundImage: `url(${currentUser.avatar})` }}
               onClick={onEditAvatar}
             >
               <div className=' profile__overlay' arialabel='Обновить'></div>{' '}
             </div>{' '}
             <div className='profile__info'>
               <div className='profile__titleicon' onClick={onEditProfile}>
-                <h1 className='profile__title'>{userName}</h1>{' '}
+                <h1 className='profile__title'>{currentUser.name}</h1>{' '}
                 <button
                   type='button'
                   className='button'
@@ -48,7 +42,7 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                   />{' '}
                 </button>{' '}
               </div>{' '}
-              <p className='profile__subtitle'>{userDescription}</p>{' '}
+              <p className='profile__subtitle'>{currentUser.about}</p>{' '}
             </div>{' '}
           </div>{' '}
           <button className='button' arialabel='Кнопка добавления'>
@@ -62,7 +56,14 @@ function Main ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         </div>{' '}
         <section className='cards'>
           {cards.map(item => (
-            <Card onCardClick={onCardClick} item={item} key={item._id} />
+            <Card
+              onCardClick={onCardClick}
+              item={item}
+              key={item._id}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              countLikes={countLikes}
+            />
           ))}
         </section>
       </main>

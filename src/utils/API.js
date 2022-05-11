@@ -19,13 +19,13 @@ class API {
       throw 'Request failed'
     })
   }
-  postCard (item) {
+  postCard ({ name, url }) {
     const promise = fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
-        name: item.name,
-        link: item.link
+        name: name,
+        link: url
       })
     })
     return this._makeRequest(promise)
@@ -45,34 +45,20 @@ class API {
       }).catch(err => alert(`Request failed ${err.status}`))
     )
   }
-  editProfileInfo (userData) {
+  editProfileInfo ({ name, about }) {
+    console.log({ name, about })
     return this._makeRequest(
       fetch(`${this._url}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
-          name: userData.user,
-          about: userData.profession
+          name,
+          about
         })
       })
     )
   }
-  putLike (id) {
-    return this._makeRequest(
-      fetch(`${this._url}/cards/${id}/likes`, {
-        method: 'PUT',
-        headers: this._headers
-      })
-    )
-  }
-  deleteLike (id) {
-    return this._makeRequest(
-      fetch(`${this._url}/cards/${id}/likes`, {
-        method: 'DELETE',
-        headers: this._headers
-      })
-    )
-  }
+
   changeAvatar (avatar) {
     return this._makeRequest(
       fetch(`${this._url}/users/me/avatar`, {
@@ -81,6 +67,14 @@ class API {
         body: JSON.stringify({
           avatar
         })
+      })
+    )
+  }
+  changeLikeCardStatus (id, isLiked) {
+    return this._makeRequest(
+      fetch(`${this._url}/cards/${id}/likes`, {
+        method: isLiked ? 'DELETE' : 'PUT',
+        headers: this._headers
       })
     )
   }
