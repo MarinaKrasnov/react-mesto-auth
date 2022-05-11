@@ -1,5 +1,6 @@
 import React from 'react'
 import PopupWithForm from './PopupWithForm'
+
 function AddPlacePopup ({ isOpen, onClose, handleSubmit }) {
   const [name, setName] = React.useState('')
   const [url, setUrl] = React.useState('')
@@ -12,11 +13,13 @@ function AddPlacePopup ({ isOpen, onClose, handleSubmit }) {
   const onSubmit = e => {
     e.preventDefault()
     handleSubmit({ name, url })
+    setName('')
+    setUrl('')
   }
   return (
     <PopupWithForm
-      name={'add'}
-      title={'Новое место'}
+      name='add'
+      title='Новое место'
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={onSubmit}
@@ -55,4 +58,5 @@ function AddPlacePopup ({ isOpen, onClose, handleSubmit }) {
     </PopupWithForm>
   )
 }
+
 export default AddPlacePopup

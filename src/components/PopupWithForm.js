@@ -16,9 +16,9 @@ function PopupWithForm ({ name, title, children, isOpen, onClose, onSubmit }) {
               className='button close-btn'
               onClick={onClose}
             />
-          </fieldset>{' '}
-        </form>{' '}
-      </div>{' '}
+          </fieldset>
+        </form>
+      </div>
     </div>
   )
 }

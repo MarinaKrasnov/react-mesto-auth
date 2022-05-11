@@ -1,6 +1,7 @@
 import React from 'react'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
-function Card ({ item, onCardClick, onCardLike, onCardDelete, countLikes }) {
+
+function Card ({ item, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext)
   const isOwn = item.owner._id === currentUser._id
   const cardDeleteButtonClassName = `button card__button-delete ${
@@ -49,4 +50,5 @@ function Card ({ item, onCardClick, onCardLike, onCardDelete, countLikes }) {
     </article>
   )
 }
+
 export default Card

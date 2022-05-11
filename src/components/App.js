@@ -5,12 +5,13 @@ import Footer from './Footer.js'
 import PopupWithForm from './PopupWithForm.js'
 import ImagePopup from './ImagePopup.js'
 import api from '../utils/api.js'
-
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 import EditProfilePopup from './EditProfilePopup.js'
 import EditAvatarPopup from './EditAvatarPopup'
 import AddPlacePopup from './AddPlacePopup.js'
+
 function App () {
+  // State constants
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(
     false
   )
@@ -18,6 +19,23 @@ function App () {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
     false
   )
+  const [selectedCard, setSelectedCard] = React.useState(null)
+  const [currentUser, setCurrentUser] = React.useState({})
+  const [cards, setCards] = React.useState([])
+
+  // Effects
+  React.useEffect(() => {
+    Promise.all([api.getCards(), api.getProfileInfo()])
+      .then(([cards, userData]) => {
+        setCards(cards)
+        setCurrentUser(userData)
+      })
+      .catch(err => {
+        console.log(`Request for data from server is failed.${err}`)
+      })
+  }, [])
+
+  //Handlers
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true)
   }
@@ -33,18 +51,6 @@ function App () {
     setIsEditAvatarPopupOpen(false)
     setSelectedCard(null)
   }
-  const [currentUser, setCurrentUser] = React.useState({})
-  React.useEffect(() => {
-    api
-      .getProfileInfo()
-      .then(userData => {
-        setCurrentUser(userData)
-      })
-      .catch(err => {
-        console.log(`Request for data from server is failed.${err}`)
-      })
-  }, [])
-  const [selectedCard, setSelectedCard] = React.useState(null)
   function handleCardClick (card) {
     setSelectedCard(card)
   }
@@ -70,38 +76,33 @@ function App () {
         console.log(`Request for data from server is failed.${err}`)
       })
   }
-
-  const [countLikes, setCountLikes] = React.useState(0)
   function handleCardLike (card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id)
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, isLiked).then(newCard => {
-      setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
-      setCountLikes(isLiked ? card.likes.length-- : card.likes.length++)
-    })
-  }
-  const [cards, setCards] = React.useState([])
-  function handleCardDelete (card) {
-    api.deleteCard(card._id).then(() => {
-      setCards(cards =>
-        cards.filter(item => {
-          return item._id !== card._id
-        })
-      )
-      card.remove()
-    })
-  }
-  React.useEffect(() => {
     api
-      .getCards()
-      .then(cards => {
-        setCards(cards)
+      .changeLikeCardStatus(card._id, isLiked)
+      .then(newCard => {
+        setCards(state => state.map(c => (c._id === card._id ? newCard : c)))
       })
       .catch(err => {
         console.log(`Request for data from server is failed.${err}`)
       })
-  }, [])
+  }
+  function handleCardDelete (card) {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards(cards =>
+          cards.filter(item => {
+            return item._id !== card._id
+          })
+        )
+      })
+      .catch(err => {
+        console.log(`Request for data from server is failed.${err}`)
+      })
+  }
   function handleAddPlaceSubmit (newCard) {
     api
       .postCard(newCard)
@@ -124,7 +125,6 @@ function App () {
         handleCardLike={handleCardLike}
         handleCardDelete={handleCardDelete}
         cards={cards}
-        countLikes={countLikes}
       />
       <Footer />
       <ImagePopup onClose={closeAllPopups} card={selectedCard} />
@@ -146,7 +146,7 @@ function App () {
 
       <PopupWithForm
         name={'ausure'}
-        title={'Вы уверены?'}
+        title='Вы уверены?'
         onClose={closeAllPopups}
       >
         <input type='hidden' name='id' defaultValue='' />

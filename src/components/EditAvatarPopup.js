@@ -5,11 +5,12 @@ function EditAvatarPopup ({ isOpen, onClose, onSubmit }) {
   function handleSubmit (e) {
     e.preventDefault()
     onSubmit(avatar.current.value)
+    avatar.current.value = ''
   }
   return (
     <PopupWithForm
-      name={'avatar'}
-      title={'Обновить аватар'}
+      name='avatar'
+      title='Обновить аватар'
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

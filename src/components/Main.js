@@ -1,9 +1,9 @@
 import React from 'react'
 import plus from '../images/Vector-3.svg'
 import pen from '../images/Vector-2.svg'
-import api from '../utils/api.js'
 import Card from './Card.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+
 function Main ({
   onEditProfile,
   onAddPlace,
@@ -11,8 +11,7 @@ function Main ({
   onCardClick,
   handleCardDelete,
   handleCardLike,
-  cards,
-  countLikes
+  cards
 }) {
   const currentUser = React.useContext(CurrentUserContext)
   return (
@@ -62,7 +61,6 @@ function Main ({
               key={item._id}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
-              countLikes={countLikes}
             />
           ))}
         </section>
@@ -70,4 +68,5 @@ function Main ({
     </div>
   )
 }
+
 export default Main

@@ -1,4 +1,4 @@
-class API {
+class Api {
   constructor (url, headers) {
     this._url = url
     this._headers = headers
@@ -79,7 +79,8 @@ class API {
     )
   }
 }
-const api = new API('https://mesto.nomoreparties.co/v1/cohort-38', {
+
+const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
   Accept: 'application/json',
   'Content-Type': 'application/json; charset=utf-8',
   authorization: 'c5a7c514-ca8f-4b82-95f7-7b25ec57dd45'
