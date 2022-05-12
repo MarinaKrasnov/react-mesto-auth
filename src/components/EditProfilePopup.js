@@ -1,6 +1,7 @@
 import React from 'react'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import PopupWithForm from './PopupWithForm'
+
 function EditProfilePopup ({ isOpen, onClose, handleSubmit }) {
   const [name, setName] = React.useState('')
   const [about, setAbout] = React.useState('')
@@ -63,4 +64,5 @@ function EditProfilePopup ({ isOpen, onClose, handleSubmit }) {
     </PopupWithForm>
   )
 }
+
 export default EditProfilePopup

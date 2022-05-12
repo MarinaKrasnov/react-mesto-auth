@@ -34,6 +34,7 @@ function AddPlacePopup ({ isOpen, onClose, handleSubmit }) {
         maxLength={30}
         required=''
         onChange={handleInputName}
+        value={name || ''}
       />
       <span id='name-place-error' className='popup__error' />
       <input
@@ -44,6 +45,7 @@ function AddPlacePopup ({ isOpen, onClose, handleSubmit }) {
         placeholder='Ссылка на картинку'
         required=''
         onChange={handleInputUrl}
+        value={url || ''}
       />
       <span id='url-error' className='popup__error' />
       <input type='hidden' name='id' defaultValue='' />

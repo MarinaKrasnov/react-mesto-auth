@@ -14,6 +14,12 @@ function Card ({ item, onCardClick, onCardLike, onCardDelete }) {
   const handleDelete = () => {
     onCardDelete(item)
   }
+  const handleClick = () => {
+    onCardClick(item)
+  }
+  const handleLikeClick = () => {
+    onCardLike(item)
+  }
 
   return (
     <article className='card' aria-label='Карточка' key={item._id}>
@@ -22,9 +28,7 @@ function Card ({ item, onCardClick, onCardLike, onCardDelete }) {
         src={item.link}
         /*        style={{ backgroundImage: `url(${item.link})` }} */
         alt={`Виды на ${item.name}`}
-        onClick={() => {
-          onCardClick(item)
-        }}
+        onClick={handleClick}
       />
       <button
         type='button'
@@ -40,9 +44,7 @@ function Card ({ item, onCardClick, onCardLike, onCardDelete }) {
             type='button'
             className={cardLikeButtonClassName}
             aria-label='Кнопка лайк'
-            onClick={() => {
-              onCardLike(item)
-            }}
+            onClick={handleLikeClick}
           ></button>
           <p className='card__number-likes'>{item.likes.length}</p>
         </div>
