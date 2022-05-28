@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from '../images/logo.svg'
 
-function Header ({ children }) {
+function Header ({ children, className }) {
   return (
-    <header className='header'>
+    <header className={`header ${className}`}>
       <img className='header__logo' src={logo} alt='Логотип Место' />
       {children}
     </header>

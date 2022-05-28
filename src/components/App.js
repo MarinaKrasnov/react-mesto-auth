@@ -33,20 +33,33 @@ function App () {
   const history = useHistory()
   const [isInfoTooltipOpen, setInfoTooltip] = React.useState(false)
   const [message, setMessage] = React.useState(false)
+  const [email, setEmail] = React.useState()
   // Effects
   React.useEffect(() => {
-    Promise.all([api.getCards(), api.getProfileInfo()])
-      .then(([cards, userData]) => {
-        setCards(cards)
-        setCurrentUser(userData)
-      })
-      .catch(err => {
-        console.log(`Request for data from server is failed.${err}`)
-      })
-  }, [])
-  /*   React.useEffect(() => {
+    if (isLoggedIn) {
+      Promise.all([api.getCards(), api.getProfileInfo()])
+        .then(([cards, userData]) => {
+          setCards(cards)
+          setCurrentUser(userData)
+        })
+        .catch(err => {
+          console.log(`Request for data from server is failed.${err}`)
+        })
+    }
+  }, [isLoggedIn])
+  React.useEffect(() => {
+    const checkToken = () => {
+      const jwt = localStorage.getItem('jwt')
+      if (jwt) {
+        auth.checkToken(jwt).then(response => {
+          setEmail(response.data.email)
+          setIsLoggedIn(true)
+          history.push('/main')
+        })
+      }
+    }
     checkToken()
-  }, []) */
+  }, [])
   //Handlers
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true)
@@ -137,12 +150,7 @@ function App () {
     auth
       .register(password, email)
       .then(response => {
-        console.log('register:', response)
         if (response.data) {
-          /*       setUserData({
-            username: response.user.username,
-            email: response.user.email
-          }) */
           setMessage(true)
           setInfoTooltip(true)
           React.setTimeOut(() => {
@@ -163,13 +171,12 @@ function App () {
         console.log(err)
       })
   }
-  const handleLogin = (password, email) => {
-    auth.login(password, email).then(response => {
-      console.log('auth:', response)
+  const handleLogin = (email, password) => {
+    auth.login(email, password).then(response => {
       if (response) {
-        localStorage.setItem('jwt', response.jwt)
+        localStorage.setItem('jwt', response.token)
         setIsLoggedIn(true)
-
+        setEmail(email)
         history.push('/main')
       } else {
         setMessage(false)
@@ -177,28 +184,29 @@ function App () {
       }
     })
   }
-  /*   const checkToken = () => {
-    const jwt = localStorage.getItem('jwt')
-    if (jwt) {
-      console.log('jwt', jwt)
-      auth.checkToken(jwt).then(response => {
-        console.log('token:', response)
-        setIsLoggedIn(true)
-        history.push('/main')
-      })
-    }
-  } */
-  /*   const handleSignOut = () => {
+
+  const handleSignOut = () => {
     localStorage.removeItem('jwt')
     setIsLoggedIn(false)
-    //navigate('/login')
-    history.push('/login')
-  } */
+    setEmail('')
+    history.push('/sign-in')
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Switch>
-        <ProtectedRoute path='/main' isLoggedIn={isLoggedIn}>
-          <Header />
+        <ProtectedRoute exact path='/main' isLoggedIn={isLoggedIn}>
+          <Header className={'header_type_loggedin'}>
+            <div className='header__email-container'>
+              <p className='header__email'>{email}</p>
+              <Link
+                to='sign-in'
+                className='header__link link header__link_type_loggedin'
+                onClick={handleSignOut}
+              >
+                Выйти
+              </Link>
+            </div>
+          </Header>
           <Main
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
@@ -242,7 +250,7 @@ function App () {
           </PopupWithForm>
         </ProtectedRoute>
         <Route path='/sign-up'>
-          <Header>
+          <Header className={'header_type_login'}>
             <Link to='sign-in' className='link'>
               Войти
             </Link>
@@ -257,7 +265,7 @@ function App () {
           />
         </Route>
         <Route path='/sign-in'>
-          <Header>
+          <Header className={'header_type_login'}>
             <Link to='sign-up' className='header__link link'>
               Регистрация
             </Link>
