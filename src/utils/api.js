@@ -1,89 +1,90 @@
 class Api {
-  constructor (url, headers) {
-    this._url = url
-    this._headers = headers
+  constructor(url, headers) {
+    this._url = url;
+    this._headers = headers;
   }
-  getCards () {
+  getCards() {
     return this._makeRequest(
       fetch(`${this._url}/cards`, {
-        method: 'GET',
-        headers: this._headers
+        method: "GET",
+        headers: this._headers,
       })
-    )
+    );
   }
-  _makeRequest (promise) {
-    return promise.then(res => {
+  _makeRequest(promise) {
+    return promise.then((res) => {
       if (res.ok) {
-        return res.json()
+        return res.json();
       }
-      throw 'Request failed'
-    })
+      // eslint-disable-next-line no-throw-literal
+      throw "Request failed";
+    });
   }
-  postCard ({ name, url }) {
+  postCard({ name, url }) {
     const promise = fetch(`${this._url}/cards`, {
-      method: 'POST',
+      method: "POST",
       headers: this._headers,
       body: JSON.stringify({
         name: name,
-        link: url
-      })
-    })
-    return this._makeRequest(promise)
+        link: url,
+      }),
+    });
+    return this._makeRequest(promise);
   }
-  deleteCard (id) {
+  deleteCard(id) {
     const promise = fetch(`${this._url}/cards/${id}`, {
-      method: 'DELETE',
-      headers: this._headers
-    })
-    return this._makeRequest(promise)
+      method: "DELETE",
+      headers: this._headers,
+    });
+    return this._makeRequest(promise);
   }
-  getProfileInfo () {
+  getProfileInfo() {
     return this._makeRequest(
       fetch(`${this._url}/users/me`, {
-        method: 'GET',
-        headers: this._headers
-      }).catch(err => alert(`Request failed ${err.status}`))
-    )
+        method: "GET",
+        headers: this._headers,
+      }).catch((err) => alert(`Request failed ${err.status}`))
+    );
   }
-  editProfileInfo ({ name, about }) {
-    console.log({ name, about })
+  editProfileInfo({ name, about }) {
+    console.log({ name, about });
     return this._makeRequest(
       fetch(`${this._url}/users/me`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
           name,
-          about
-        })
+          about,
+        }),
       })
-    )
+    );
   }
 
-  changeAvatar (avatar) {
+  changeAvatar(avatar) {
     return this._makeRequest(
       fetch(`${this._url}/users/me/avatar`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: this._headers,
         body: JSON.stringify({
-          avatar
-        })
+          avatar,
+        }),
       })
-    )
+    );
   }
-  changeLikeCardStatus (id, isLiked) {
+  changeLikeCardStatus(id, isLiked) {
     return this._makeRequest(
       fetch(`${this._url}/cards/${id}/likes`, {
-        method: isLiked ? 'DELETE' : 'PUT',
-        headers: this._headers
+        method: isLiked ? "DELETE" : "PUT",
+        headers: this._headers,
       })
-    )
+    );
   }
 }
 
-const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
-  Accept: 'application/json',
-  'Content-Type': 'application/json; charset=utf-8',
-  authorization: 'c5a7c514-ca8f-4b82-95f7-7b25ec57dd45'
-})
+const api = new Api("https://mesto.nomoreparties.co/v1/cohort-38", {
+  Accept: "application/json",
+  "Content-Type": "application/json; charset=utf-8",
+  authorization: "c5a7c514-ca8f-4b82-95f7-7b25ec57dd45",
+});
 
-export default api
+export default api;
