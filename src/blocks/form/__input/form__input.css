@@ -9,15 +9,17 @@
     height: 42px;
     border-bottom: solid 1px white;
     color: white;
+ /*    flex-grow: 1; */
 }
 
 .form__input:nth-of-type(odd) {
     margin-bottom: 17px;
 }
 
-.form__input::-webkit-input-placeholder  {
+.form__input::-webkit-input-placeholder {
     color: #cccccc;
 }
+
 .form__input:-moz-placeholder {
     color: #cccccc;
 }

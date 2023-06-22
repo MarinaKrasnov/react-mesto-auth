@@ -3,6 +3,7 @@
     color: #FFFFFF;
     font-weight: 400;
     margin: 0 auto;
+
     font-family: "Inter", Arial, sans-serif;
     padding: 45px 19px 60px;
     text-rendering: optimizeLegibility;
@@ -29,14 +30,12 @@
 
 @media (max-width:837px) {
     .page {
-        padding: 28px 19px 36px;
-        /* max-width: 282px;*/
+        padding: 28px 0 36px;
     }
 }
 
 @media (max-width: 470px) {
     .page {
         padding: 28px 0 36px;
-
     }
 }

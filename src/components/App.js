@@ -166,6 +166,10 @@ function App() {
           setMessage(false);
           setInfoTooltip(true);
         }
+        if (res.error) {
+          setMessage(res.error);
+          setInfoTooltip(true);
+        }
       })
       .catch((err) => {
         console.log(err);

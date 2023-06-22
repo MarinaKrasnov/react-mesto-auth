@@ -6,9 +6,17 @@
     margin-right: 200px;
 }
 
-/* @media (max-width:500px) {
+@media (max-width:837px) {
     .header_type_login {
         margin-left: auto;
         margin-right: auto;
     }
-} */
+}
+
+@media (min-width:1200px) {
+    .header_type_login {
+        max-width: 357px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
