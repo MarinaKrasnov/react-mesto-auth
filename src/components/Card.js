@@ -26,7 +26,6 @@ function Card ({ item, onCardClick, onCardLike, onCardDelete }) {
       <img
         className='card__image'
         src={item.link}
-        /*        style={{ backgroundImage: `url(${item.link})` }} */
         alt={`Виды на ${item.name}`}
         onClick={handleClick}
       />

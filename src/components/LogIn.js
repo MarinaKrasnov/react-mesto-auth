@@ -6,7 +6,6 @@ const LogIn = ({ onLogin }) => {
     email: '',
     password: ''
   })
-  /*   const [message, setMessage] = React.useState('') */
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -26,7 +25,6 @@ const LogIn = ({ onLogin }) => {
     <Route path='/sign-in'>
       <form onSubmit={handleSubmit} className='form'>
         <p className='form__title'>Вход</p>
-        {/*         <p className='register__error'>{inputs.message}</p> */}
         <input
           id='email'
           name='email'

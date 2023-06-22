@@ -3,7 +3,6 @@
     color: #FFFFFF;
     font-weight: 400;
     margin: 0 auto;
-
     font-family: "Inter", Arial, sans-serif;
     padding: 45px 19px 60px;
     text-rendering: optimizeLegibility;
@@ -15,11 +14,6 @@
     -moz-osx-font-smoothing: grayscale;
     -ms-font-feature-settings: "kern";
     font-feature-settings: "kern";
-    display: grid;
-    grid-template-areas: "header"
-        "profile"
-        "cards"
-        "footer";
 }
 
 @media (min-width:1260px) {

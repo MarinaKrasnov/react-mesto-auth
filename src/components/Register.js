@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-/* import './styles/Register.css' */
 
 const Register = ({ onRegister }) => {
   const [state, setState] = React.useState({

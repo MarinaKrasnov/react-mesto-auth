@@ -6,13 +6,10 @@
     grid: dense;
     align-items: center;
     justify-content: center;
-    grid-area: cards;
 }
 
 @media (max-width:837px) {
     .cards {
         grid-template-columns: repeat(1, minmax(auto, 282px));
-        /*  display: flex;
-        flex-direction: column;*/
     }
 }

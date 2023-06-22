@@ -26,4 +26,4 @@ Training to build responsive mobile adaptive project with a help of React. The p
 
 This project was made according to layout in [Brief](https://www.figma.com/file/5H3gsn5lIGPwzBPby9jAOo/JavaScript.-Sprint-12?node-id=0%3A1)
 
-** [Demo Link](https://marinakrasnov.github.io/react-mesto-auth/)**
+** [Demo Link](http://dull-meeting.surge.sh/)**
